@@ -12,6 +12,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@logtail/node": "^0.5.8",
+    "@logtail/winston": "^0.5.8",
     "express": "^5.2.1",
     "redis": "^5.12.1",
     "winston": "^3.19.0"
