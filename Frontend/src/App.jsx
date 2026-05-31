@@ -1,12 +1,16 @@
 import { useDispatch, useSelector } from "react-redux"
-import { RouterProvider } from 'react-router-dom'
-import { router } from "./routes"
+import { Outlet, useNavigate } from 'react-router-dom'
 import { FaNewspaper, FaRegMoon, FaRegSun } from "react-icons/fa6"
 import { toggleTheme } from "./features/themeSlice"
+import { useEffect, useState } from "react"
 
 function App() {
     const dispatch = useDispatch()
     const theme = useSelector( ({ theme }) => theme.value )
+
+    const [ searchTerm, setSearchTerm ] = useState( '' )
+
+    let navigateTo = useNavigate()
 
     return (
         <div className={`
@@ -68,9 +72,16 @@ function App() {
                         dark:focus:ring-green-400
                         placeholder-gray-500 dark:placeholder-gray-400
                     "
+                    value={ searchTerm }
+                    onChange={ ( e ) => setSearchTerm( e.target.value ) }
+                    onKeyDown={ ( e ) => {
+                        if ( e.key === 'Enter' && searchTerm.trim() !== '' ) {
+                            navigateTo( `/search?q=${ encodeURIComponent( searchTerm.trim() ) }` )
+                        }
+                    } }
                 />
 
-                <RouterProvider router={ router } />
+                <Outlet />
             </div>
         </div>
     )
