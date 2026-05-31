@@ -4,6 +4,7 @@ import winston from 'winston';
 import {LogtailTransport} from "@logtail/winston"
 import {Logtail} from "@logtail/node"
 import crypto from 'crypto';
+import cors from 'cors';
 
 
 const app = express();
@@ -24,6 +25,10 @@ const app = express();
 // 6. Performance logging to track API response times and identify potential bottlenecks
 // 7. Cache hit/miss logging to monitor cache effectiveness and identify opportunities for optimization
 // 8. Redis error logging to capture and troubleshoot issues related to caching
+
+
+// setup cors for cross-origin requests
+app.use( cors() )
 
 
 // setup logtail for production logging
