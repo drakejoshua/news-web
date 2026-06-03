@@ -101,6 +101,7 @@ const redisClient = redis.createClient({
 // handle Redis cache errors and log them using the 
 // configured logger
 redisClient.on('error', (err) => {
+    console.log("Redis error: ", err )
     logger.error({
         event: "redis_error",
         message: "Redis error: " + (err?.message || "Unknown error"),
