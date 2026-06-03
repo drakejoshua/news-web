@@ -6,7 +6,7 @@ const NewsArticle = React.memo(({ title, description, author, source, url, image
         <div
             className="
                 flex
-                lg:flex-row flex-col
+                md:flex-row flex-col
                 gap-4
                 bg-gray-100 dark:bg-gray-800
                 p-4
@@ -14,7 +14,7 @@ const NewsArticle = React.memo(({ title, description, author, source, url, image
             "
         >
             <img src={imageUrl} alt="News Article" 
-                className="lg:w-2/5 w-full h-full aspect-square rounded-md shrink-0 object-cover" 
+                className="md:w-2/5 w-full h-full aspect-square rounded-md shrink-0 object-cover" 
                 fetchPriority={ index === 0 ? "high" : "low"} 
                 loading={ index === 0 ? "eager" : "lazy" } />
             
