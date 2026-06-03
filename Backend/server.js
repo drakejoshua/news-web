@@ -380,6 +380,8 @@ async function startServer() {
                 event: "server_started",
                 message: `Server is running on port ${PORT}`
             });
+
+            console.log(`Server listening on port ${PORT}`)
         });
     } catch (err) {
         logger.error({
