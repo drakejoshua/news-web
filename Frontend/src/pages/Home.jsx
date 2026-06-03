@@ -16,7 +16,7 @@ export default function Home() {
     const [activeCategory, setActiveCategory] = useState('general')
 
     const {
-        isLoading,
+        isFetching,
         isError,
         error,
         data
@@ -59,7 +59,7 @@ export default function Home() {
             </div>
 
             {/* loading */}
-            {isLoading && (
+            {isFetching && (
                 <div className="mt-6 text-center text-gray-500">
                     Loading news articles...
                 </div>
@@ -73,14 +73,14 @@ export default function Home() {
             )}
 
             {/* articles */}
-            {!isLoading && !isError && (
+            {!isFetching && !isError && (
                 <div
                     className="
                         mt-6
                         flex flex-col gap-4
                     "
                 >
-                    {data?.data?.articles?.map((newsArticle) => (
+                    {data?.data?.articles?.map((newsArticle, index) => (
                         <NewsArticle
                             key={newsArticle.url}
                             title={newsArticle.title}
@@ -92,6 +92,7 @@ export default function Home() {
                             source={newsArticle.source?.name || 'Unknown'}
                             url={newsArticle.url}
                             imageUrl={newsArticle.urlToImage}
+                            index={index}
                         />
                     ))}
                 </div>

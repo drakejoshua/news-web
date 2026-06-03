@@ -1,14 +1,12 @@
+import { FaNewspaper, FaRegSun, FaRegMoon } from "react-icons/fa6"
+import { useRouteError } from "react-router-dom"
+import { toggleTheme } from "../features/themeSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { Outlet, useNavigation } from 'react-router-dom'
-import { FaNewspaper, FaRegMoon, FaRegSun } from "react-icons/fa6"
-import { toggleTheme } from "./features/themeSlice"
-import SearchBar from "./components/SearchBar"
 
-function App() {
+export default function RouteError() {
+    const error = useRouteError()
     const dispatch = useDispatch()
-    const theme = useSelector( ({ theme }) => theme.value )
-
-    const { state } = useNavigation()
+    const theme = useSelector(({ theme }) => theme.value)
 
     return (
         <div className={`
@@ -26,19 +24,6 @@ function App() {
                     scrollbar-none
                 "
             >
-                {/* page lazy loading indicator */}
-                {state === "loading" && 
-                    <div
-                        className="
-                            fixed top-0 left-0 w-full h-1.5
-                            bg-green-600
-                            dark:bg-green-400
-                            animate-pulse
-                        z-50
-                    "
-                >
-                </div>}
-
                 {/* logo */}
                 <div 
                     className="
@@ -68,12 +53,14 @@ function App() {
                     </button>
                 </div>
 
-                <SearchBar />
-
-                <Outlet />
+                <h1 className="text-2xl font-medium text-center mt-4">Oops!</h1>
+                <p className="text-gray-600 dark:text-gray-400 text-center mt-2">
+                    Sorry, an unexpected error has occurred.
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 text-center">
+                    {error.statusText || error.message}
+                </p>
             </div>
         </div>
     )
 }
-
-export default App

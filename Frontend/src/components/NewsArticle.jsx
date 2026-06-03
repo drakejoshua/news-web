@@ -1,18 +1,22 @@
 import React from 'react'
 import { FaUser } from 'react-icons/fa6'
 
-export default function NewsArticle({ title, description, author, source, url, imageUrl }) {
+const NewsArticle = React.memo(({ title, description, author, source, url, imageUrl, index }) => {
     return (
         <div
             className="
                 flex
+                lg:flex-row flex-col
                 gap-4
                 bg-gray-100 dark:bg-gray-800
                 p-4
                 rounded-md
             "
         >
-            <img src={imageUrl} alt="News Article" className="w-2/5 h-full aspect-square rounded-md shrink-0 object-cover" />
+            <img src={imageUrl} alt="News Article" 
+                className="lg:w-2/5 w-full h-full aspect-square rounded-md shrink-0 object-cover" 
+                fetchPriority={ index === 0 ? "high" : "low"} 
+                loading={ index === 0 ? "eager" : "lazy" } />
             
             <div className="flex flex-col gap-2">
                 {/* article title & link */}
@@ -34,4 +38,7 @@ export default function NewsArticle({ title, description, author, source, url, i
             </div>
         </div>
     )
-}
+})
+
+
+export default NewsArticle

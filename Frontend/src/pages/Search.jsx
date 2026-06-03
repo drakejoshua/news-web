@@ -1,15 +1,22 @@
+import { useSearchParams } from "react-router-dom"
 import { useSearchNewsByKeywordQuery } from "../app/services/newsApiData"
 import NewsArticle from "../components/NewsArticle"
 
 export function Component() {
-    const query = new URLSearchParams( window.location.search ).get( 'q' )
+    const [ searchParams ] = useSearchParams()
+    const query = searchParams.get( 'q' )
 
-    const { data, error, isLoading } = useSearchNewsByKeywordQuery( query )
-
+    const { data, error, isLoading } = useSearchNewsByKeywordQuery( 
+        query,
+        { skip: !query }
+    )
+    
     const errorMessage =
         error?.data?.error?.message ||
         error?.message ||
-        'Something went wrong'
+        'Something went wrong'  
+
+    const articles = data?.data?.articles ?? []
 
     return (
         <div className="mt-4">
@@ -20,9 +27,9 @@ export function Component() {
             { error && <p>Error: { errorMessage }</p> }
 
             {/* news articles - empty and non-empty states */}
-            { data && data.data.articles.length > 0 ? (
+            { data && articles.length > 0 ? (
                 <div className="flex flex-col gap-4">
-                    { data.data.articles.map( ( article ) => (
+                    { articles.map( ( article ) => (
                         <NewsArticle 
                             key={article.url}
                             title={article.title}
