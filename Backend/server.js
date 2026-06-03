@@ -94,15 +94,17 @@ app.use((req, res, next) => {
 
 
 // setup Redis client
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+});
 
 // handle Redis cache errors and log them using the 
 // configured logger
 redisClient.on('error', (err) => {
     logger.error({
         event: "redis_error",
-        message: "Redis error: " + (err.message || "Unknown error"),
-        stack: err.stack
+        message: "Redis error: " + (err?.message || "Unknown error"),
+        stack: err?.stack
     });
 });
 
@@ -365,9 +367,7 @@ const PORT = process.env.PORT;
 
 async function startServer() {
     try {
-        await redisClient.connect({
-            url: process.env.REDIS_URL
-        });
+        await redisClient.connect();
 
         // set redis memory limit to 256 
         await redisClient.configSet('maxmemory', '24mb');
