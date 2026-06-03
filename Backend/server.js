@@ -95,7 +95,8 @@ app.use((req, res, next) => {
 
 // setup Redis client
 const redisClient = redis.createClient({
-    url: process.env.REDIS_URL
+    url: process.env.REDIS_URL,
+    use_tls: ( process.env.NODE_ENV === 'production' ? true : false ) // use TLS in production for secure connections to Redis
 });
 
 // handle Redis cache errors and log them using the 
