@@ -361,6 +361,8 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 
+const PORT = process.env.PORT;
+
 async function startServer() {
     try {
         await redisClient.connect({
@@ -372,7 +374,6 @@ async function startServer() {
 
         await redisClient.configSet('maxmemory-policy', 'allkeys-lru');
 
-        const PORT = process.env.PORT;
 
         app.listen(PORT, () => {
             logger.info({
