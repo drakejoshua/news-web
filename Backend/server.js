@@ -30,7 +30,6 @@ const app = express();
 // setup cors for cross-origin requests
 app.use( cors() )
 
-
 // setup logtail for production logging
 const logtail = new Logtail( process.env.BETTER_STACK_KEY );
 
@@ -96,7 +95,7 @@ app.use((req, res, next) => {
 // setup Redis client
 const redisClient = redis.createClient({
     url: process.env.REDIS_URL,
-    use_tls: ( process.env.NODE_ENV === 'production' ? true : false ) // use TLS in production for secure connections to Redis
+    // use_tls: ( process.env.NODE_ENV === 'production' ? true : false ) // use TLS in production for secure connections to Redis
 });
 
 // handle Redis cache errors and log them using the 
@@ -369,6 +368,12 @@ const PORT = process.env.PORT;
 
 async function startServer() {
     try {
+        logger.info({
+            event: "debug_info",
+            message: `Attempting to connect to Redis at ${process.env.REDIS_URL} with TLS:
+             ${process.env.NODE_ENV === 'production' ? 'enabled' : 'disabled'}`
+        });
+
         await redisClient.connect();
 
         // set redis memory limit to 256 
