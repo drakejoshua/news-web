@@ -94,8 +94,7 @@ app.use((req, res, next) => {
 
 // setup Redis client
 const redisClient = redis.createClient({
-    url: process.env.REDIS_URL,
-    // use_tls: ( process.env.NODE_ENV === 'production' ? true : false ) // use TLS in production for secure connections to Redis
+    url: process.env.REDIS_URL
 });
 
 // handle Redis cache errors and log them using the 
@@ -370,16 +369,17 @@ async function startServer() {
     try {
         logger.info({
             event: "debug_info",
-            message: `Attempting to connect to Redis at ${process.env.REDIS_URL} with TLS:
-             ${process.env.NODE_ENV === 'production' ? 'enabled' : 'disabled'}`
+            message: `Attempting to connect to Redis at ${process.env.REDIS_URL}`
         });
 
         await redisClient.connect();
 
-        // set redis memory limit to 256 
-        await redisClient.configSet('maxmemory', '24mb');
+        // set redis memory limit to 256 ( only on self-hosted Redis instances, 
+        // not applicable for managed Redis services like Redis Cloud or AWS 
+        // ElastiCache which have their own memory management and eviction policies )
+        // await redisClient.configSet('maxmemory', '24mb');
 
-        await redisClient.configSet('maxmemory-policy', 'allkeys-lru');
+        // await redisClient.configSet('maxmemory-policy', 'allkeys-lru');
 
 
         app.listen(PORT, () => {
